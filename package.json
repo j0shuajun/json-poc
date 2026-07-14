@@ -5,6 +5,7 @@
   "type": "module",
   "description": "JSON parsing/saving and Quick Sort PoC, and a JSON-file-backed contacts CRUD console app built on top of it.",
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "start": "node index.js"
   }
 }
