@@ -1,7 +1,12 @@
 import fs from 'node:fs';
 
 export function saveJson(filePath, data) {
-  const text = JSON.stringify(data, null, 2);
+  let text;
+  try {
+    text = JSON.stringify(data, null, 2);
+  } catch (err) {
+    throw new Error(`Failed to serialize JSON for ${filePath}: ${err.message}`);
+  }
   fs.writeFileSync(filePath, text, 'utf-8');
 }
 

@@ -6,7 +6,7 @@ function nextId(contacts) {
 }
 
 export function createContact(contacts, { name, phone = '', email = '' }) {
-  if (!name || !name.trim()) {
+  if (typeof name !== 'string' || !name.trim()) {
     throw new Error('name is required');
   }
 
@@ -19,6 +19,9 @@ export function findById(contacts, id) {
 }
 
 export function search(contacts, keyword) {
+  if (typeof keyword !== 'string') {
+    throw new TypeError('keyword must be a string');
+  }
   const lowerKeyword = keyword.toLowerCase();
   return contacts.filter((contact) =>
     [contact.name, contact.phone, contact.email].some((value) =>
