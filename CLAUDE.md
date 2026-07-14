@@ -54,6 +54,9 @@ json-poc/
 │   ├── storage.js           # JSON 파일 read/write 담당 (poc/json-poc.js 구조 재사용)
 │   ├── contactStore.js       # Create/Read/Update/Delete 로직 (순수 로직, I/O 분리)
 │   └── cli.js                 # 메뉴 출력 + 입력 처리 + main() 진입점
+├── tests/
+│   ├── poc/                    # poc/ 아래 각 파일과 이름을 맞춘 테스트
+│   └── app/                    # app/ 아래 각 파일과 이름을 맞춘 테스트
 ├── index.js                    # app/cli.js 진입점만 호출
 └── docs/
     └── (yyyy-mm-dd_<summary>_plan.md / _result.md)
@@ -84,9 +87,11 @@ TDD 진행 순서(의존성이 적은 순수 로직부터): `poc(json/quicksort)
 - `feat: implement quicksort partition and recursive sort`
 - `refactor: extract JSON file read/write helpers`
 
-테스트 파일명 규칙: 대상 파일과 같은 이름에 `.test.js` 접미사를 붙인다
-(예: `app/contactStore.js` → `app/contactStore.test.js`). 테스트 러너는 구현 착수 시
-plan 문서에서 확정한다(현재 미확정).
+테스트 파일 위치/이름 규칙: 소스와 같은 디렉토리에 두지 않고 `tests/` 아래에
+소스 디렉토리 구조를 그대로 미러링하여 같은 이름의 `.test.js` 파일을 둔다
+(예: `app/contactStore.js` → `tests/app/contactStore.test.js`,
+`poc/json-poc.js` → `tests/poc/json-poc.test.js`). 테스트 러너는 `node --test`
+(`npm test`)이며, 기본 탐색 규칙으로 `tests/` 아래 `*.test.js` 파일을 별도 설정 없이 찾는다.
 
 ## 5) plan/result 문서 규칙
 

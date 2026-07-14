@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { sortArray } from './quicksort-poc.js';
+import { sortArray } from '../../poc/quicksort-poc.js';
 
 test('무작위 순서 배열을 오름차순으로 정렬한다', () => {
   assert.deepEqual(sortArray([5, 3, 8, 1, 9, 2]), [1, 2, 3, 5, 8, 9]);
@@ -33,4 +33,26 @@ test('원본 배열은 변경하지 않는다', () => {
 
   assert.deepEqual(original, [5, 3, 8, 1]);
   assert.deepEqual(sorted, [1, 3, 5, 8]);
+});
+
+test('음수와 0이 섞여 있어도 올바르게 정렬한다', () => {
+  assert.deepEqual(sortArray([0, -3, 5, -1, 0]), [-3, -1, 0, 0, 5]);
+});
+
+test('문자열 배열도 사전순으로 정렬한다', () => {
+  assert.deepEqual(sortArray(['banana', 'apple', 'cherry']), ['apple', 'banana', 'cherry']);
+});
+
+test('NaN이 섞여 있어도 예외 없이 원소 개수를 유지한 채 돌려준다', () => {
+  const result = sortArray([3, NaN, 1]);
+
+  assert.equal(result.length, 3);
+  assert.deepEqual(result, [1, 3, NaN]);
+});
+
+test('숫자와 문자열이 섞여 있어도 예외 없이 원소 개수를 유지한 채 돌려준다', () => {
+  const result = sortArray([3, '1', 2]);
+
+  assert.equal(result.length, 3);
+  assert.deepEqual(result, ['1', 2, 3]);
 });

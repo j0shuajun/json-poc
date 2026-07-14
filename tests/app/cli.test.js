@@ -4,8 +4,8 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-import { main } from './cli.js';
-import { loadContacts } from './storage.js';
+import { main } from '../../app/cli.js';
+import { loadContacts } from '../../app/storage.js';
 
 function tempFilePath(name) {
   return path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'cli-')), name);
@@ -121,6 +121,16 @@ test('삭제 확인에서 y가 아니면 삭제를 취소한다', async () => {
 
   assert.ok(log.lines.some((line) => line.includes('삭제를 취소했습니다')));
   assert.equal(loadContacts(filePath).length, 1);
+});
+
+test('ID로 검색할 때 숫자가 아닌 값을 입력해도 예외 없이 안내 메시지를 보여준다', async () => {
+  const filePath = tempFilePath('contacts.json');
+  const rl = fakeRl(['2', 'abc', '0']);
+  const log = fakeLog();
+
+  await main({ rl, filePath, log });
+
+  assert.ok(log.lines.some((line) => line.includes('찾을 수 없습니다')));
 });
 
 test('존재하지 않는 메뉴 번호를 입력하면 에러 안내 후 메뉴로 돌아간다', async () => {
